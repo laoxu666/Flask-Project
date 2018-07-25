@@ -1,6 +1,6 @@
 import random
 
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 from App.ext import db
 
@@ -74,3 +74,22 @@ def modify_student():
     db.session.commit()
 
     return "修改学生成功！"
+
+
+# 数据查询操作
+@blue.route("/getstudent/")
+def get_student():
+
+    students = Student.query.all()  # 返回的是一个列表
+    # students = Student.query.filter(Student.id.__eq__(71))  # students 是个 flask_sqlalchemy.BaseQuery 类型
+    # students = Student.query.filter(Student.id.__le__(71))
+    # students = Student.query.filter(Student.s_name.contains("小明"))
+    print(type(students))
+
+    for student in students:
+
+        print(student.s_name)
+
+    # return "查询成功！"
+    return render_template('StudentList.html',students=students)
+
